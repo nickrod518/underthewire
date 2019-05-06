@@ -1,6 +1,4 @@
 from ssh_helper import test_solutions
-import warnings
-warnings.filterwarnings(action='ignore', module='.paramiko.')
 
 
 solutions = {
@@ -21,7 +19,4 @@ solutions = {
     "century15": (None, "153")
 }
 
-host = "century.underthewire.tech"
-print("\n\nhost = {}\n".format(host))
-
-test_solutions(host, solutions, False)
+test_solutions("century.underthewire.tech", solutions)
