@@ -1,17 +1,6 @@
-from fabric import Connection
+from ssh_helper import test_solutions
 import warnings
 warnings.filterwarnings(action='ignore', module='.paramiko.')
-
-
-def login_and_execute(host, usr, pwd, cmd):
-    print("{} = {}".format(usr, pwd))
-
-    c = Connection(host=host, user=usr, connect_kwargs={"password": pwd})
-    result = c.run(cmd, hide=True)
-    c.close()
-
-    # only return the second line, which contains our command output
-    return result.stdout.splitlines()[1]
 
 
 solutions = {
@@ -32,25 +21,7 @@ solutions = {
     "century15": (None, "153")
 }
 
-only_test_last_sol = False
-
 host = "century.underthewire.tech"
 print("\n\nhost = {}\n".format(host))
 
-if only_test_last_sol == True:
-    last_sol = list(solutions.keys())[-2]
-    next_sol = list(solutions.keys())[-1]
-    pwd = login_and_execute(
-        host, last_sol, solutions[last_sol][1], solutions[last_sol][0])
-    login_and_execute(host, next_sol, pwd, "hostname")
-else:
-    next_pwd = solutions.get((list(solutions.keys()))[0])[1]
-
-    for usr, val in solutions.items():
-        cmd = val[0]
-        pwd = next_pwd
-
-        if cmd is not None:
-            next_pwd = login_and_execute(host, usr, pwd, cmd)
-        else:
-            login_and_execute(host, usr, pwd, "hostname")
+test_solutions(host, solutions, False)
