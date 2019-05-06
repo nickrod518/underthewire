@@ -1,6 +1,6 @@
 from ssh_helper import test_solutions
 
-
+# username: (command, password)
 solutions = {
     "century1": ("$PSVersionTable.BuildVersion.ToString()", "century1"),
     "century2": ("'invoke-webrequest' + (gci ~\Desktop | select -exp Name)", "10.0.14393.2791"),

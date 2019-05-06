@@ -17,6 +17,7 @@ def test_solutions(host, solutions, last_only=False):
     print("\n\nhost = {}\n".format(host))
 
     if last_only == True:
+        # only test the final solution
         last_sol = list(solutions.keys())[-2]
         next_sol = list(solutions.keys())[-1]
 
