@@ -1,20 +1,27 @@
 from fabric import Connection
+import paramiko
 
 
 def login_and_execute(host, usr, pwd, cmd="hostname"):
-    print("{} = {}".format(usr, pwd))
+    print("Testing {}@{} using password {}...".format(usr, host, pwd), end='')
 
-    c = Connection(host=host, user=usr, connect_kwargs={"password": pwd})
-    # hide stderr and stdout
-    result = c.run(cmd, hide=True)
-    c.close()
+    try:
+        c = Connection(host=host, user=usr, connect_kwargs={"password": pwd})
+        # hide stderr and stdout
+        result = c.run(cmd, hide=True)
+        print("success.")
+        c.close()
+
+    except paramiko.ssh_exception.AuthenticationException as e:
+        print(str(e).lower())
+        return None
 
     # only return the second line, which contains our command output
     return result.stdout.splitlines()[1]
 
 
 def test_solutions(host, solutions, last_only=False):
-    print("\n\nhost = {}\n".format(host))
+    print("\nhost = {}\n".format(host))
 
     if last_only == True:
         # only test the final solution
@@ -33,7 +40,11 @@ def test_solutions(host, solutions, last_only=False):
             cmd = val[0]
             pwd = next_pwd
 
-            if cmd is not None:
-                next_pwd = login_and_execute(host, usr, pwd, cmd)
+            if pwd is not None:
+                if cmd is not None:
+                    next_pwd = login_and_execute(host, usr, pwd, cmd)
+                else:
+                    login_and_execute(host, usr, pwd)
             else:
-                login_and_execute(host, usr, pwd)
+                print("exiting...")
+                return
