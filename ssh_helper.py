@@ -65,6 +65,7 @@ def test_solutions(host, solutions, last_only=False):
                 if cmd is not None:
                     next_pwd = login_and_execute(host, usr, pwd, cmd)
                 else:
+                    next_pwd = None
                     login_and_execute(host, usr, pwd)
             else:
                 print("exiting...")
