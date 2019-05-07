@@ -3,17 +3,22 @@ import paramiko
 
 
 def login_and_execute(host, usr, pwd, cmd="hostname"):
-    print("Testing {}@{} using password {}...".format(usr, host, pwd), end='')
+    print("Trying username ", end='')
+    print(bcolors.BOLD + usr + bcolors.ENDC, end='')
+    print(" and password ", end='')
+    print(bcolors.BOLD + pwd + bcolors.ENDC, end='')
+    print("...", end='')
+
 
     try:
         c = Connection(host=host, user=usr, connect_kwargs={"password": pwd})
         # hide stderr and stdout
         result = c.run(cmd, hide=True)
-        print("success.")
+        print(bcolors.OKGREEN + "success." + bcolors.ENDC)
         c.close()
 
     except paramiko.ssh_exception.AuthenticationException as e:
-        print(str(e).lower())
+        print(bcolors.FAIL + str(e).lower() + bcolors.ENDC)
         return None
 
     # only return the second line, which contains our command output
@@ -21,7 +26,8 @@ def login_and_execute(host, usr, pwd, cmd="hostname"):
 
 
 def test_solutions(host, solutions, last_only=False):
-    print("\nhost = {}\n".format(host))
+    print("\nUsing hostname ", end='')
+    print(bcolors.BOLD + host + bcolors.ENDC)
 
     if last_only == True:
         # only test the final solution
@@ -48,3 +54,14 @@ def test_solutions(host, solutions, last_only=False):
             else:
                 print("exiting...")
                 return
+
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
