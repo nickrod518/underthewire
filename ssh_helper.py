@@ -1,23 +1,28 @@
 from fabric import Connection
+from invoke import UnexpectedExit
 import paramiko
 
 
 def login_and_execute(host, usr, pwd, cmd="hostname"):
+    lpwd = str(pwd).lower()
     print("Trying username ", end='')
     print(bcolors.BOLD + usr + bcolors.ENDC, end='')
     print(" and password ", end='')
-    print(bcolors.BOLD + pwd + bcolors.ENDC, end='')
+    print(bcolors.BOLD + lpwd + bcolors.ENDC, end='')
     print("...", end='')
 
-
     try:
-        c = Connection(host=host, user=usr, connect_kwargs={"password": pwd})
+        c = Connection(host=host, user=usr, connect_kwargs={"password": lpwd})
         # hide stderr and stdout
         result = c.run(cmd, hide=True)
         print(bcolors.OKGREEN + "success." + bcolors.ENDC)
         c.close()
 
     except paramiko.ssh_exception.AuthenticationException as e:
+        print(bcolors.FAIL + str(e).lower() + bcolors.ENDC)
+        return None
+
+    except UnexpectedExit as e:
         print(bcolors.FAIL + str(e).lower() + bcolors.ENDC)
         return None
 
