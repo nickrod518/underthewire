@@ -26,8 +26,18 @@ def login_and_execute(host, usr, pwd, cmd="hostname"):
         print(bcolors.FAIL + str(e).lower() + bcolors.ENDC)
         return None
 
-    # only return the second line, which contains our command output
-    return result.stdout.splitlines()[1]
+    lines = result.stdout.splitlines()
+
+    if len(lines) > 1:
+        # the second line contains our cmd output
+        out = lines[1]
+
+        if out is not None and out != "":
+            return out
+        else:
+            print(bcolors.WARNING + "Command produced no output:" + bcolors.ENDC)
+            print(bcolors.HEADER + cmd + bcolors.ENDC)
+            return None
 
 
 def test_solutions(host, solutions, last_only=False):
