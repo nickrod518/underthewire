@@ -1,6 +1,4 @@
 from ssh_helper import test_solutions
-import warnings
-warnings.filterwarnings(action='ignore', module='.paramiko.')
 
 # username: (command, password)
 solutions = {
@@ -38,12 +36,16 @@ solutions = {
         """,
         "cybergeddon"
     ),
-    "cyborg8": (
+    "cyborg8": ("(gci ~\Desktop | Get-Content -Stream Zone.Identifier)[-1][-1]", "skynet"),
+    "cyborg9": (
         """
-
+            $a = (Get-ADUser -Filter {OfficePhone -eq '876-5309'}).GivenName
+            $b = (gci ~\Desktop).Name
+            $a + $b
         """,
-        "skynet"
-    )
+        "4"
+    ),
+    "cyborg10": (None, "Onita")
 }
 
 test_solutions("cyborg.underthewire.tech", solutions, True)

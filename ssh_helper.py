@@ -1,6 +1,9 @@
 from fabric import Connection
 from invoke import UnexpectedExit
 import paramiko
+import warnings
+
+warnings.filterwarnings(action='ignore', module='.paramiko.')
 
 
 def login_and_execute(host, usr, pwd, cmd="hostname"):
