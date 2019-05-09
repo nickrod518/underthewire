@@ -11,9 +11,24 @@ solutions = {
     "century7": ("gc (gci $env:HOME -File -Recurse).FullName", "197"),
     "century8": ("(gci ~\Desktop -File | %{ gc $_.FullName} | Get-Unique).Count", "7points"),
     "century9": ("(gc (gci ~\Desktop -File -Recurse).FullName).Split(" ")[160]", "696"),
-    "century10": ("$d = (gwmi win32_service | where name -eq wuauserv).Description.Split(' ');$d[9] + $d[7] + (gci ~\Desktop).Name", "pierid"),
+    "century10": (
+        """
+            $a = (gwmi win32_service | where name -eq wuauserv).Description.Split(' ')
+            $b = (gci ~\Desktop).Name
+            $a[9] + $a[7] + $b
+        """,
+        "pierid"
+    ),
     "century11": ("(gci $env:HOME | gci -Hidden -File).Name", "windowsupdates110"),
-    "century12": ("((Get-ADComputer -Filter * -Properties Description | where DistinguishedName -eq (Get-ADDomainController).ComputerObjectDN).Description) + (gci ~\Desktop -File).Name", "secret_sauce"),
+    "century12": (
+        """
+            $a = ((Get-ADComputer -Filter * -Properties Description |
+                where DistinguishedName -eq (Get-ADDomainController).ComputerObjectDN).Description)
+            $b = (gci ~\Desktop -File).Name
+            $a + $b
+        """,
+        "secret_sauce"
+    ),
     "century13": ("(gc (gci ~\Desktop -File).FullName).Split(" ").Count", "i_authenticate_things"),
     "century14": ("((gc (gci ~\Desktop -File).FullName).Split(" ") | where {$_ -eq 'polo'}).Count", "755"),
     "century15": (None, "153")
