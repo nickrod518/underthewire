@@ -45,7 +45,12 @@ solutions = {
         """,
         "4"
     ),
-    "cyborg10": (None, "Onita")
+    "cyborg10": (
+        """
+            Get-GPOReport -All -ReportType Xml
+        """,
+        "onita99"
+    )
 }
 
 test_solutions("cyborg.underthewire.tech", solutions, True)
