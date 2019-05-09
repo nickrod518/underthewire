@@ -1,4 +1,6 @@
 from ssh_helper import test_solutions
+import warnings
+warnings.filterwarnings(action='ignore', module='.paramiko.')
 
 # username: (command, password)
 solutions = {
@@ -21,8 +23,27 @@ solutions = {
         "bacon_eggs"
     ),
     "cyborg6": (
-        None, "rowray_timer"
+        """
+            $a = gc (gci ~\Desktop).FullName
+            [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($a))
+        """,
+        "rowray_timer"
+    ),
+    "cyborg7": (
+        """
+            $key = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+            $propName = (Get-Item $key).Property
+            $path = (Get-ItemProperty $key).$propName
+            [io.path]::GetFileNameWithoutExtension($path)
+        """,
+        "cybergeddon"
+    ),
+    "cyborg8": (
+        """
+
+        """,
+        "skynet"
     )
 }
 
-test_solutions("cyborg.underthewire.tech", solutions, False)
+test_solutions("cyborg.underthewire.tech", solutions, True)
