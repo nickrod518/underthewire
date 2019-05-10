@@ -47,9 +47,26 @@ solutions = {
     ),
     "cyborg10": (
         """
-            Get-GPOReport -All -ReportType Xml
+            $a = (Get-AppLockerPolicy -Effective).RuleCollections.Description
+            $b = (gci ~\Desktop).Name
+            $a + $b
         """,
         "onita99"
+    ),
+    "cyborg11": (
+        """
+            $log = gci C:\inetpub\logs\logfiles -File -Recurse
+            $content = gc $log.FullName
+            $pass = $content | %{ ($_.Split(' '))[12] } | where { $_ -notlike "*mozilla*" -and $_ -notlike "*opera*" }
+            $pass[-1].Split(':')[1]
+        """,
+        "terminated!99"
+    ),
+    "cyborg12": (
+        """
+
+        """,
+        "spaceballs"
     )
 }
 
