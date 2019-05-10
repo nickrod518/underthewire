@@ -64,10 +64,31 @@ solutions = {
     ),
     "cyborg12": (
         """
-
+            $path = (Get-WmiObject win32_service | where Name -eq 'i_heart_robots').PathName
+            $bytes = [System.Text.Encoding]::UTF8.GetBytes($path)
+            $a = [System.Convert]::ToBase64String($bytes).Substring(0, 4)
+            $b = (gci ~\Desktop).Name
+            $a + $b
         """,
         "spaceballs"
-    )
+    ),
+    "cyborg13": (
+        """
+            $a = (Get-DnsServerZoneAging -ZoneName underthewire.tech).RefreshInterval.Days.ToString()
+            $b = (gci ~\Desktop).Name
+            $a + $b
+        """,
+        "yzpc_heart"
+    ),
+    "cyborg14": (
+        """
+            $a = (Get-WmiObject -Class "Win32_DCOMApplication" -Namespace "root\CIMV2" | where AppID -eq '{59B8AFA0-229E-46D9-B980-DDA2C817EC7E}').Caption
+            $b = (gci ~\Desktop).Name
+            $a + $b
+        """,
+        "22_days"
+    ),
+    "cyborg15": (None, "propshts_obj")
 }
 
 test_solutions("cyborg.underthewire.tech", solutions, True)
